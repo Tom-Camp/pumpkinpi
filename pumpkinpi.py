@@ -39,7 +39,7 @@ def all_off():
 def pumpkin_pi_quit():
     all_off()
     GPIO.cleanup()
-    if not debug: sys.exit(0)
+    sys.exit(0)
 
 def debug_leds():
     global debug
@@ -53,18 +53,17 @@ def debug_leds():
         6 : ['Big Whte', bigWhite.on],
         7 : ['All on', all_on],
         8 : ['All Off', all_off],
-        9 : ['Quit', sys.exit]}
+        9 : ['Quit', pumpkin_pi_quit]}
 
     for i in range(1, len(func_list) + 1):
     	print('{}: {}'.format(i, func_list[i][0]))
 
+    x = int(input('Select function => '))
     try:
-        x = int(input('Select function => '))
         func_list[x][1]()
     except ValueError:
         print('Message: {}'.format(ValueError.message))
-    finally:
-        debug_leds()
+    debug_leds()
 
 def motion_sensor():
     all_off()
