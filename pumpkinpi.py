@@ -38,8 +38,8 @@ eyeOne = LED(20, 'Eye One')
 eyeTwo = LED(21, 'Eye Two')
 yellow = LED(22, 'Yellow')
 white = LED(23, 'White')
-bigYellow = LED(24, 'Big Yellow')
-bigWhite = LED(25, 'Big White')
+bigRed = LED(24, 'Big Yellow')
+bigYellow = LED(25, 'Big White')
 
 def all_on():
     for i in range(len(leds)):
@@ -58,9 +58,12 @@ def close_eyes():
     eyeTwo.off()
 
 def blink_sequence():
+    x = 0
+    open_eyes()
     while x <= 10:
         for i in range(len(leds)):
-            leds[i].blink(1, .5)
+            if i > 2:
+                leds[i].blink(1, .1)
         x = x + 1
 
 def pumpkin_pi_quit():
@@ -76,11 +79,12 @@ def debug_leds():
         2 : ['Eye #2', eyeTwo.on],
         3 : ['Yellow', yellow.on],
         4 : ['White', white.on],
-        5 : ['Big Yellow', bigYellow.on],
-        6 : ['Big Whte', bigWhite.on],
+        5 : ['Big red', bigRed.on],
+        6 : ['Big yellow', bigYellow.on],
         7 : ['All on', all_on],
-        8 : ['All Off', all_off],
-        9 : ['Quit', pumpkin_pi_quit]}
+        8 : ['All off', all_off],
+        9 : ['Open eyes', open_eyes],
+        10 : ['Quit', pumpkin_pi_quit]}
 
     for i in range(1, len(func_list) + 1):
     	print('{}: {}'.format(i, func_list[i][0]))
