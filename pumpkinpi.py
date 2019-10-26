@@ -23,12 +23,13 @@ class LED:
     def off(self):
         GPIO.output(self.pin, False)
 
-    def blink(self, count):
+    def blink(self, count, wait):
         x = 0
         while x <= count:
             GPIO.output(self.pin, True)
-            time.sleep(.1)
+            time.sleep(wait)
             GPIO.output(self.pin, False)
+            time.sleep(wait)
             x = x + 1
 
 leds = []
@@ -57,8 +58,10 @@ def close_eyes():
     eyeTwo.off()
 
 def blink_sequence():
-    for i in range(len(leds)):
-        leds[i].blink(10)
+    while x <= 10:
+        for i in range(len(leds)):
+            leds[i].blink(1, .5)
+        x = x + 1
 
 def pumpkin_pi_quit():
     all_off()
@@ -90,7 +93,7 @@ def debug_leds():
     debug_leds()
 
 def motion_sensing():
-    last_motion = None
+    last_motion = 0
     while True:
         if GPIO.input(motionsensor):
             last_motion = datetime.datetime.now().timestamp()
