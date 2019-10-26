@@ -70,7 +70,7 @@ def blink_sequence():
         length = random.randint(1,3) / 10
         leds[light].blink(count, length)
         t = datetime.datetime.now().timestamp()
-    close_eyes()
+    all_off()
 
 def pumpkin_pi_quit():
     all_off()
