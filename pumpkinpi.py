@@ -1,39 +1,47 @@
 #!/usr/bin/env python3
-from leds import LED
-import RPi.GPIO as GPIO, sys
-
-verbose = None
-debug = None
-leds = []
+import RPi.GPIO as GPIO, time, sys
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(True)
 motionsensor = 17
 GPIO.setup(motionsensor, GPIO.IN)
 
-eyeOne = LED(20)
-eyeTwo = LED(21)
-yellow = LED(22)
-white = LED(23)
-bigYellow = LED(24)
-bigWhite = LED(25)
+class LED:
+    """Acces the LEDS"""
+    def __init__(self, pin, name):
+        self.pin = pin
+        self.name = name
+        leds.append(self)
+        GPIO.setup(self.pin, GPIO.OUT)
 
-def all_off():
-    for i in range(len(leds)):
-        leds[i].on()
+    def on(self):
+        GPIO.output(self.pin, True)
+    def off(self):
+        GPIO.output(self.pin, False)
+
+leds = []
+
+eyeOne = LED(20, 'Eye One')
+eyeTwo = LED(21, 'Eye Two')
+yellow = LED(22, 'Yellow')
+white = LED(23, 'White')
+bigYellow = LED(24, 'Big Yellow')
+bigWhite = LED(25, 'Big White')
 
 def all_on():
     for i in range(len(leds)):
+        leds[i].on()
+
+def all_off():
+    for i in range(len(leds)):
         leds[i].off()
 
-def pumpkin_quit():
-    if verbose: print('Stopping')
+def pumpkin_pi_quit():
     all_off()
     GPIO.cleanup()
     if not debug: sys.exit(0)
 
 def debug_leds():
-    """Function for debugging LEDs"""
     global debug
     debug = True
     func_list = {
@@ -45,19 +53,21 @@ def debug_leds():
         6 : ['Big Whte', bigWhite.on],
         7 : ['All on', all_on],
         8 : ['All Off', all_off],
-        9 : ['Quit', pumpkin_quit]}
+        9 : ['Quit', sys.exit]}
 
     for i in range(1, len(func_list) + 1):
-        print('{}: {}'.format(i, func_list[i][0]))
-
-    x = int(input('Select function => '))
+    	print('{}: {}'.format(i, func_list[i][0]))
 
     try:
+        x = int(input('Select function => '))
         func_list[x][1]()
     except ValueError:
         print('Message: {}'.format(ValueError.message))
     finally:
         debug_leds()
+
+def motion_sensor():
+    all_off()
 
 def main():
     global verbose
@@ -71,6 +81,9 @@ def main():
     if '-d' in sys.argv:
         debug_leds()
 
+    motion_sensor()
+
 if __name__ == '__main__':
-    print('Pumpkin Pi starting')
+    print('Motion Sensing')
     main()
+
