@@ -2,9 +2,9 @@
 import RPi.GPIO as GPIO, sys, signal, time, random
 
 verbose = None
-leds = None
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(True)
+leds = []
 
 class LED():
     """Access the LEDs with simple methods."""
