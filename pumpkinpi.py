@@ -63,7 +63,8 @@ def blink_sequence():
     t = 0
     open_eyes()
     time.sleep(2)
-    end = datetime.datetime.now().timestamp() + 30
+    duration = random.randint(30,45)
+    end = datetime.datetime.now().timestamp() + duration
     while t <= end:
         light = random.randint(2,5)
         count = random.randint(1,4)
