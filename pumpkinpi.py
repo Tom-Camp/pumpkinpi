@@ -26,6 +26,12 @@ def all_on():
     for i in range(len(leds)):
         leds[i].off()
 
+def pumpkin_quit():
+    if verbose: print('Stopping')
+    all_off()
+    GPIO.cleanup()
+    if not debug: sys.exit(0)
+
 def debug_leds():
     """Function for debugging LEDs"""
     global debug
@@ -39,7 +45,7 @@ def debug_leds():
         6 : ['Big Whte', bigWhite.on],
         7 : ['All on', all_on],
         8 : ['All Off', all_off],
-        9 : ['Quit', sys.exit]}
+        9 : ['Quit', pumpkin_quit]}
 
     for i in range(1, len(func_list) + 1):
         print('{}: {}'.format(i, func_list[i][0]))
