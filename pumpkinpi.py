@@ -31,6 +31,8 @@ class LED:
             GPIO.output(self.pin, False)
             time.sleep(wait)
             x = x + 1
+            if random.randint(1,10) % 2 == 0:
+                GPIO.output(self.pin, True)
 
 leds = []
 
@@ -63,11 +65,10 @@ def blink_sequence():
     time.sleep(2)
     end = datetime.datetime.now().timestamp() + 30
     while t <= end:
-        for i in range(len(leds)):
-            if i >= 2:
-                light = random.randint(1,4)
-                length = random.randint(1,3) / 10
-                leds[i].blink(light, length)
+        light = random.randint(2,5)
+        count = random.randint(1,4)
+        length = random.randint(1,3) / 10
+        leds[light].blink(count, length)
         t = datetime.datetime.now().timestamp()
     close_eyes()
 
@@ -77,10 +78,10 @@ def pumpkin_pi_quit():
     sys.exit(0)
 
 def keyboardInterruptHandler(signal, frame):
-    print('PumpkinPi exit early')
+    print('Shutting down')
     pumpkin_pi_quit()
     exit(0)
-    
+
 signal.signal(signal.SIGINT, keyboardInterruptHandler)
 
 def debug_leds():
