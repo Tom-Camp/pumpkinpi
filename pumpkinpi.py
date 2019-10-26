@@ -40,7 +40,7 @@ eyeOne = LED(20, 'Eye One')
 eyeTwo = LED(21, 'Eye Two')
 yellow = LED(22, 'Yellow')
 white = LED(23, 'White')
-bigRed = LED(24, 'Big Yellow')
+bigRed = LED(24, 'Big Red')
 bigYellow = LED(25, 'Big White')
 
 def all_on():
