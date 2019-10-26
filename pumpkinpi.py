@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import RPi.GPIO as GPIO, time, sys
+import RPi.GPIO as GPIO, time, sys, datetime
 
 verbose = None
 debug = None
@@ -19,8 +19,17 @@ class LED:
 
     def on(self):
         GPIO.output(self.pin, True)
+
     def off(self):
         GPIO.output(self.pin, False)
+
+    def blink(self, count):
+        x = 0
+        while x <= count:
+            GPIO.output(self.pin, True)
+            time.sleep(.1)
+            GPIO.output(self.pin, False)
+            x = x + 1
 
 leds = []
 
@@ -38,6 +47,18 @@ def all_on():
 def all_off():
     for i in range(len(leds)):
         leds[i].off()
+
+def open_eyes():
+    eyeOne.on()
+    eyeTwo.on()
+
+def close_eyes():
+    eyeOne.off()
+    eyeTwo.off()
+
+def blink_sequence():
+    for i in range(len(leds)):
+        leds[i].blink(10)
 
 def pumpkin_pi_quit():
     all_off()
@@ -65,11 +86,19 @@ def debug_leds():
     try:
         func_list[x][1]()
     except ValueError:
-        print('Message: {}'.format(ValueError.message))
+        print('No valid input.')
     debug_leds()
 
 def motion_sensor():
-    all_off()
+    last_motion = None
+    while True:
+        if GPIO.input(motion_sensor):
+            last_motion = datetime.datetime.now()
+            blink_sequence()
+        else:
+            if datetime.datetime.now() > last_motion + 60:
+                all_off()
+
 
 def main():
     global verbose
