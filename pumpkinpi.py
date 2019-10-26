@@ -89,14 +89,14 @@ def debug_leds():
         print('No valid input.')
     debug_leds()
 
-def motion_sensor():
+def motion_sensing():
     last_motion = None
     while True:
-        if GPIO.input(motion_sensor):
-            last_motion = datetime.datetime.now()
+        if GPIO.input(motionsensor):
+            last_motion = datetime.datetime.now().timestamp()
             blink_sequence()
         else:
-            if datetime.datetime.now() > last_motion + 60:
+            if datetime.datetime.now().timestamp() > last_motion + 60:
                 all_off()
 
 
@@ -112,7 +112,7 @@ def main():
     if '-d' in sys.argv:
         debug_leds()
 
-    motion_sensor()
+    motion_sensing()
 
 if __name__ == '__main__':
     print('Motion Sensing')
