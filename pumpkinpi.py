@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 import RPi.GPIO as GPIO, time, sys
 
+verbose = None
+debug = None
+
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(True)
 motionsensor = 17
