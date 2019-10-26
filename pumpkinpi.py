@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import RPi.GPIO as GPIO, time, sys, datetime, random
+import RPi.GPIO as GPIO, time, sys, datetime, random, signal
 
 verbose = None
 debug = None
@@ -66,7 +66,7 @@ def blink_sequence():
         for i in range(len(leds)):
             if i >= 2:
                 light = random.randint(1,4)
-                length = random.randint(1,4) / 10
+                length = random.randint(1,3) / 10
                 leds[i].blink(light, length)
         t = datetime.datetime.now().timestamp()
     close_eyes()
@@ -76,10 +76,12 @@ def pumpkin_pi_quit():
     GPIO.cleanup()
     sys.exit(0)
 
-def signal_handler(signal, frame):
+def keyboardInterruptHandler(signal, frame):
     print('PumpkinPi exit early')
     pumpkin_pi_quit()
-    signal.signal(signal.SIGINT, signal_handler)
+    exit(0)
+    
+signal.signal(signal.SIGINT, keyboardInterruptHandler)
 
 def debug_leds():
     global debug
